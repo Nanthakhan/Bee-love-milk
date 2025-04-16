@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>กล่องของขวัญวันเกิด</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Mali&display=swap');
+
+    body {
+      margin: 0;
+      background: linear-gradient(to top, #fef5ff, #ffe6f0);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Mali', cursive;
+    }
+
+    .gift-box {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      background: #ff66b2;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 2;
+      transition: transform 0.4s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .gift-box:hover {
+      transform: scale(1.05);
+    }
+
+    .lid {
+      position: absolute;
+      top: -40px;
+      width: 200px;
+      height: 50px;
+      background: #ff3399;
+      border-radius: 10px;
+      transition: transform 1s ease;
+      z-index: 3;
+    }
+
+    .ribbon-vertical, .ribbon-horizontal {
+      position: absolute;
+      background: #fff;
+    }
+
+    .ribbon-vertical {
+      width: 20px;
+      height: 200px;
+      left: 90px;
+      top: 0;
+      border-radius: 10px;
+    }
+
+    .ribbon-horizontal {
+      height: 20px;
+      width: 200px;
+      top: 90px;
+      left: 0;
+      border-radius: 10px;
+    }
+
+    .gift-box.open .lid {
+      transform: rotate(-45deg) translate(-50px, -100px);
+    }
+
+    .heart, .floating-img, .love-text {
+      position: absolute;
+      opacity: 0;
+      animation: floatUp 4s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-600px) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+    .heart {
+      color: red;
+      font-size: 24px;
+    }
+
+    .floating-img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+
+    .love-text {
+      color: #ff3399;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .message {
+      margin-top: 30px;
+      font-size: 28px;
+      color: #ff3399;
+      text-shadow: 1px 1px 2px #fff;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 1s ease;
+      animation: popUp 1s ease forwards;
+      display: none;
+    }
+
+    @keyframes popUp {
+      0% {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .show-message {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gift-box" id="giftBox">
+    <div class="lid"></div>
+    <div class="ribbon-vertical"></div>
+    <div class="ribbon-horizontal"></div>
+  </div>
+
+  <h1 class="message" id="message">เอาไปเลยหัวใจ 1,000 ดวง ❤️</h1>
+
+  <script>
+    const giftBox = document.getElementById("giftBox");
+    const message = document.getElementById("message");
+
+    const birthdayImages = [
+      '222.png', '0003.jpg', '6565.JPG', 'IMG_9378.JPG', 'IMG_5403.jpg',
+      'IMG_5023.JPG', '00001.JPG', 'h222.png', 'IMG_8110.jpg', 'IMG_5829.jpg'
+    ];
+
+    function createHeart(x, y, delay) {
+      setTimeout(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "❤️";
+        heart.style.left = x + "px";
+        heart.style.top = y + "px";
+        heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+        heart.style.animationDelay = `${Math.random() * 1}s`;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+      }, delay);
+    }
+
+    function createImage(x, y, delay) {
+      setTimeout(() => {
+        const img = document.createElement("img");
+        img.src = birthdayImages[Math.floor(Math.random() * birthdayImages.length)];
+        img.className = "floating-img";
+        img.style.left = x + "px";
+        img.style.top = y + "px";
+        img.style.transform = `rotate(${Math.random() * 360}deg)`;
+        img.style.animationDelay = `${Math.random() * 1.5}s`;
+        document.body.appendChild(img);
+        setTimeout(() => img.remove(), 4000);
+      }, delay);
+    }
+
+    function createLoveText(x, y, delay) {
+      setTimeout(() => {
+        const love = document.createElement("div");
+        love.className = "love-text";
+        love.innerText = "รักนะ";
+        love.style.left = x + "px";
+        love.style.top = y + "px";
+        love.style.fontSize = (Math.random() * 10 + 16) + "px";
+        love.style.animationDelay = `${Math.random() * 1.2}s`;
+        document.body.appendChild(love);
+        setTimeout(() => love.remove(), 4000);
+      }, delay);
+    }
+
+    giftBox.addEventListener("click", () => {
+      giftBox.classList.add("open");
+      message.classList.add("show-message");
+
+      const boxRect = giftBox.getBoundingClientRect();
+
+      for (let i = 0; i < 1000; i++) {
+        const delay = i * 100 + Math.random() * 100;
+        const x = boxRect.left + Math.random() * 200;
+        const y = boxRect.top + Math.random() * 50;
+        createHeart(x, y, delay);
+        if (i % 15 === 0) {
+          createLoveText(x, y, delay);
+        }
+      }
+
+      for (let i = 0; i < 1000; i++) {
+        const delay = i * 150 + Math.random() * 200;
+        const x = boxRect.left + Math.random() * 200;
+        const y = boxRect.top + Math.random() * 50;
+        createImage(x, y, delay);
+      }
+    });
+  </script>
+
+</body>
+</html>

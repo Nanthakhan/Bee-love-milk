@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ใส่รหัสลับน่ารักๆ 💕🔐</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      font-family: 'Mali', cursive;
+      background: linear-gradient(135deg, #ffd6ec, #e0f7ff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      color: #ff66a3;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: #ff3399;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+    }
+
+    .hint {
+      background: #fff5fb;
+      padding: 15px 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(255, 182, 193, 0.2);
+      color: #ff66aa;
+      font-size: 1rem;
+      margin-bottom: 25px;
+      max-width: 400px;
+    }
+
+    .display {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: #ffe4ef;
+      border: 2px solid #ff99cc;
+    }
+
+    .dot.filled {
+      background-color: #ff66a3;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 70px);
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .key {
+      width: 70px;
+      height: 70px;
+      font-size: 1.5rem;
+      border: none;
+      border-radius: 50%;
+      background-color: #ffe0f0;
+      color: #ff4f96;
+      font-weight: bold;
+      box-shadow: 0 5px 10px rgba(255, 128, 170, 0.2);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .key:active {
+      transform: scale(0.95);
+      background-color: #ffcce6;
+    }
+
+    .message {
+      margin-top: 20px;
+      color: #ff4f96;
+      font-size: 1.1rem;
+      min-height: 1.5em;
+    }
+
+    @media (max-width: 400px) {
+      .key {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔐 รหัสคือ...</h1>
+  <div class="hint">วันเกิดปี๊ๆ ➜ วันเกิดมี๊ ➜ ปีเกิดของเรา 💕</div>
+
+  <div class="display" id="dotDisplay">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <div class="keypad">
+    <button class="key">1</button>
+    <button class="key">2</button>
+    <button class="key">3</button>
+    <button class="key">4</button>
+    <button class="key">5</button>
+    <button class="key">6</button>
+    <button class="key">7</button>
+    <button class="key">8</button>
+    <button class="key">9</button>
+    <button class="key">←</button>
+    <button class="key">0</button>
+    <button class="key">⏎</button>
+  </div>
+
+  <div class="message" id="messageBox"></div>
+
+  <script>
+    const correctCode = "022044"; // ปี๊ๆ: 02 / มี๊: 20 / ปีเกิดเรา: 44
+    let inputCode = "";
+    const dotDisplay = document.getElementById("dotDisplay").children;
+    const messageBox = document.getElementById("messageBox");
+
+    document.querySelectorAll('.key').forEach(key => {
+      key.addEventListener('click', () => {
+        const val = key.textContent;
+
+        if (val === "←") {
+          inputCode = inputCode.slice(0, -1);
+        } else if (val === "⏎") {
+          checkCode();
+        } else if (inputCode.length < 6) {
+          inputCode += val;
+        }
+
+        updateDots();
+      });
+    });
+
+    function updateDots() {
+      [...dotDisplay].forEach((dot, idx) => {
+        dot.classList.toggle("filled", idx < inputCode.length);
+      });
+    }
+
+    function checkCode() {
+      if (inputCode === correctCode) {
+        Swal.fire({
+          title: 'เย้! 🥳',
+          text: 'เข้าสู่ระบบสำเร็จแล้ว~ 💖',
+          icon: 'success',
+          confirmButtonText: 'ไปต่อเลย!',
+          confirmButtonColor: '#ff88bb',
+          background: '#fff0f5',
+        }).then(() => {
+          window.location.href = "index.html"; // แก้ลิงก์ตามต้องการ
+        });
+      } else {
+        Swal.fire({
+          title: 'อุ๊ย! 😢',
+          text: 'ทำไมจำไม่ได้🤬',
+          icon: 'error',
+          confirmButtonText: 'ใส่ใหม่',
+          confirmButtonColor: '#ff88bb',
+          background: '#fff0f5',
+        });
+      }
+      inputCode = "";
+      updateDots();
+    }
+  </script>
+
+</body>
+</html>

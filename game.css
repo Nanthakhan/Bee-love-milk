@@ -1,0 +1,20 @@
+.instructions {
+    position: absolute;
+    top: 30px;
+    text-align: center;
+    color: #ff66a3;
+    background-color: #fff8fc;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(255, 182, 193, 0.2);
+    width: 80%;
+    max-width: 600px;
+    font-size: 1rem;
+  }
+  
+  .instructions h2 {
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+    color: #ff4f96;
+  }
+  

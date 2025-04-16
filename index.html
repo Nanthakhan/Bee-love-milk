@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  <link href="net.css" rel="stylesheet" type="text/css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Itim&family=Mitr:wght@400;600&family=Sriracha&display=swap" rel="stylesheet" />
+
+  <!-- Responsive & Flower Style -->
+  <style>
+    /* ดอกไม้ขอบจอ */
+    .flower-border {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .flower-border span {
+      position: absolute;
+      font-size: 24px;
+      animation: float 10s infinite ease-in-out;
+      opacity: 0.6;
+    }
+
+    .flower-border span:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+    .flower-border span:nth-child(2) { top: 80%; left: 10%; animation-delay: 1s; }
+    .flower-border span:nth-child(3) { top: 30%; right: 5%; animation-delay: 2s; }
+    .flower-border span:nth-child(4) { top: 70%; right: 10%; animation-delay: 3s; }
+    .flower-border span:nth-child(5) { top: 50%; left: 45%; animation-delay: 4s; }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+
+    /* เอฟเฟกต์ฟุ้งฟิ้ง */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: radial-gradient(circle, #ffc0cb33 1px, transparent 1px);
+      background-size: 20px 20px;
+      pointer-events: none;
+      z-index: 0;
+      animation: sparkle 3s linear infinite;
+    }
+
+    @keyframes sparkle {
+      0% { background-position: 0 0; }
+      100% { background-position: 20px 20px; }
+    }
+
+    /* ข้อความบนสุด */
+    .cute-message {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-size: 2.1rem;
+      color: #af2369;
+      font-family: "Mitr", sans-serif;
+      font-weight: 600;
+      z-index: 10;
+      background-color: rgba(255,255,255,0.8);
+    }
+
+    /* Responsive เฉพาะมือถือ */
+    @media screen and (max-width: 768px) {
+      .cute-message {
+        font-size: 1.2rem;
+        padding: 8px 20px;
+        text-align: center;
+      }
+
+      .container {
+        padding: 20px 0;
+        flex-direction: column;
+        align-items: center;
+        height: auto !important;
+      }
+
+      .items {
+        width: 90%;
+        height: auto;
+        margin: 10px 0;
+        transition: none;
+      }
+
+      .img-border {
+        width: 100%;
+        height: auto;
+      }
+
+      .items img {
+        border-radius: 10px;
+        width: 100%;
+        height: auto;
+      }
+
+      .items:hover {
+        transform: none;
+        height: auto;
+      }
+
+      .detail,
+      .detail-button {
+        display: flex !important;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .detail-button-left button,
+      .detail-button-right button {
+        width: 45px;
+        height: 45px;
+        font-size: 0.9rem;
+      }
+
+      .detail-rating {
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ดอกไม้ตกแต่ง -->
+  <div class="flower-border">
+    <span>🌸</span>
+    <span>🌼</span>
+    <span>🌷</span>
+    <span>🌺</span>
+    <span>💮</span>
+  </div>
+
+  <!-- ข้อความน่ารัก -->
+  
+
+  <!-- รายการไอเท็ม -->
+  <div class="container">
+    <!-- Item 1 -->
+    <a class="items" href="indix.html">
+      <div class="img-border">
+        <img src="naruto.png" alt="naruto">
+      </div>
+      <div class="detail">
+        <div class="detail-button">
+          <div class="detail-button-left">
+            <button><i class="fas fa-play"></i></button>
+            <button><i class="fas fa-plus"></i></button>
+            <button><i class="fas fa-thumbs-up"></i></button>
+            <button><i class="fas fa-thumbs-up"></i></button>
+          </div>
+          <div class="detail-button-right">
+            <button><i class="fas fa-angle-right"></i></button>
+          </div>
+        </div>
+        <div class="detail-rating">
+          <p>ของขวัญ 🎁</p>
+          <p>18+</p>
+          <p>💝</p>
+        </div>
+      </div>
+    </a>
+
+    <!-- Item 2 -->
+    <a class="items" href="home.html">
+      <div class="img-border">
+        <img src="naruto1.png" alt="home">
+      </div>
+      <div class="detail">
+        <div class="detail-button">
+          <div class="detail-button-left">
+            <button><i class="fas fa-play"></i></button>
+            <button><i class="fas fa-plus"></i></button>
+            <button><i class="fas fa-thumbs-up"></i></button>
+            <button><i class="fas fa-thumbs-up"></i></button>
+          </div>
+          <div class="detail-button-right">
+            <button><i class="fas fa-angle-right"></i></button>
+          </div>
+        </div>
+        <div class="detail-rating">
+          <p>วีดีโอ 🎦</p>
+          <p>18+</p>
+          <p>💜</p>
+        </div>
+      </div>
+    </a>
+
+    <!-- Item 3 -->
+    <a class="items" href="game.html">
+      <div class="img-border">
+        <img src="ert.png" alt="game">
+      </div>
+      <div class="detail">
+        <div class="detail-button">
+          <div class="detail-button-left">
+            <button><i class="fas fa-play"></i></button>
+            <button><i class="fas fa-plus"></i></button>
+            <button><i class="fas fa-thumbs-up"></i></button>
+            <button><i class="fas fa-thumbs-up"></i></button>
+          </div>
+          <div class="detail-button-right">
+            <button><i class="fas fa-angle-right"></i></button>
+          </div>
+        </div>
+        <div class="detail-rating">
+          <p>เกมจับคู่ภาพ 🎮</p>
+          <p>18+</p>
+          <p>♠️</p>
+        </div>
+      </div>
+    </a>
+
+    <!-- Item 4 -->
+    <a class="items" href="marbo.html" >
+      <div class="img-border">
+        <img src="qwe.png" alt="marbo">
+      </div>
+      <div class="detail">
+        <div class="detail-button">
+          <div class="detail-button-left">
+            <button><i class="fas fa-play"></i></button>
+            <button><i class="fas fa-plus"></i></button>
+            <button><i class="fas fa-thumbs-up"></i></button>
+            <button><i class="fas fa-thumbs-up"></i></button>
+          </div>
+          <div class="detail-button-right">
+            <button><i class="fas fa-angle-right"></i></button>
+          </div>
+        </div>
+        <div class="detail-rating">
+          <p>สุดท้ายแต่ไม่ท้ายสุด 😅</p>
+          <p>18+</p>
+          <p>😘</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</body>
+</html>

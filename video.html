@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Netflix Style Video Player</title>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      font-family: 'Helvetica Neue', sans-serif;
+      color: white;
+    }
+
+    .player-container {
+      position: relative;
+      max-width: 960px;
+      margin: auto;
+      background: black;
+    }
+
+    video {
+      width: 100%;
+    }
+
+    .top-bar {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 5;
+      transition: opacity 0.3s;
+    }
+
+    .netflix-logo {
+      color: #e50914;
+      font-weight: bold;
+      font-size: 1.8rem;
+    }
+
+    .episode-title {
+      font-size: 1rem;
+    }
+
+    .controls-container {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      box-sizing: border-box;
+      transition: opacity 0.3s;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: #444;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress {
+      height: 100%;
+      background: #e50914;
+      width: 0%;
+    }
+
+    .time-display {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-top: 5px;
+      color: #ccc;
+    }
+
+    .buttons {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .control-btn {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease;
+    }
+
+    .control-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .control-label {
+      font-size: 12px;
+      color: #ccc;
+      margin-top: 2px;
+      text-align: center;
+    }
+
+    .control-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hide-ui .controls-container,
+    .hide-ui .top-bar {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="player-container" id="playerContainer">
+  <video id="videoPlayer" src="0411 (1).mp4" preload="metadata"></video>
+
+  <!-- Netflix Logo + Episode Info -->
+  <div class="top-bar" id="topBar">
+    <div class="netflix-logo">N</div>
+    <div class="episode-title">รักๆมี๊นะ 💞</div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-container" id="controlsContainer">
+    <div class="progress-bar" id="progressBar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <div class="time-display">
+      <span id="currentTime">0:00</span>
+      <span id="duration">0:00</span>
+    </div>
+
+    <div class="buttons">
+      <div class="button-group">
+        <div class="control-column">
+          <button class="control-btn" onclick="skip(-10)"><i class="fas fa-undo-alt"></i></button>
+          <div class="control-label">ย้อน 10 วิ</div>
+        </div>
+        <div class="control-column">
+          <button class="control-btn" onclick="togglePlay()" id="playPauseBtn"><i class="fas fa-play"></i></button>
+          <div class="control-label">เล่น/หยุด</div>
+        </div>
+        <div class="control-column">
+          <button class="control-btn" onclick="skip(10)"><i class="fas fa-redo-alt"></i></button>
+          <div class="control-label">ข้าม 10 วิ</div>
+        </div>
+      </div>
+
+      <div class="control-column">
+        <button class="control-btn" onclick="toggleFullscreen()"><i class="fas fa-expand"></i></button>
+        <div class="control-label">เต็มจอ</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const video = document.getElementById('videoPlayer');
+  const progress = document.getElementById('progress');
+  const progressBar = document.getElementById('progressBar');
+  const currentTimeEl = document.getElementById('currentTime');
+  const durationEl = document.getElementById('duration');
+  const playerContainer = document.getElementById('playerContainer');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+    return `${mins}:${secs}`;
+  }
+
+  video.addEventListener('loadedmetadata', () => {
+    durationEl.textContent = formatTime(video.duration);
+  });
+
+  video.addEventListener('timeupdate', () => {
+    const percent = (video.currentTime / video.duration) * 100;
+    progress.style.width = `${percent}%`;
+    currentTimeEl.textContent = formatTime(video.currentTime);
+  });
+
+  progressBar.addEventListener('click', (e) => {
+    const rect = progressBar.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const newTime = (clickX / rect.width) * video.duration;
+    video.currentTime = newTime;
+  });
+
+  function togglePlay() {
+    if (video.paused) {
+      video.play();
+      playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+    } else {
+      video.pause();
+      playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+    }
+  }
+
+  function skip(seconds) {
+    video.currentTime += seconds;
+  }
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      playerContainer.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  // Hide controls after inactivity
+  let mouseTimer;
+  const hideDelay = 2000; // 2 วินาที
+
+  function showControls() {
+    playerContainer.classList.remove('hide-ui');
+    clearTimeout(mouseTimer);
+    mouseTimer = setTimeout(() => {
+      playerContainer.classList.add('hide-ui');
+    }, hideDelay);
+  }
+
+  playerContainer.addEventListener('mousemove', showControls);
+  playerContainer.addEventListener('mouseleave', () => {
+    playerContainer.classList.add('hide-ui');
+  });
+
+  // เริ่มต้นซ่อนหลังเปิด video
+  video.addEventListener('play', () => {
+    showControls();
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Itim&family=Mitr:wght@400;600&family=Sriracha&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>จับคู่ภาพน่ารักๆ 🧸🌸</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Kanit', sans-serif;
+      background: linear-gradient(135deg, #ffe0f0, #e0f7ff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .instructions {
+      text-align: center;
+      color: #ff66a3;
+      background-color: #fff8fc;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(255, 182, 193, 0.2);
+      width: 90%;
+      max-width: 600px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      font-family: "Mitr", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .instructions h2 {
+      margin: 0 0 10px;
+      font-size: 1.5rem;
+      color: #ff4f96;
+    }
+
+    .game-container {
+      width: 90vw;
+      max-width: 600px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      padding: 25px;
+      background-color: #fff8fc;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
+      position: relative;
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+
+    .card.flipped .inner {
+      transform: rotateY(180deg);
+    }
+
+    .front, .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+    }
+
+    .front {
+      background-color: #ffd5ec;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: inset 0 0 5px rgba(255, 128, 170, 0.1);
+    }
+
+    .back {
+      transform: rotateY(180deg);
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 0 5px rgba(255, 105, 180, 0.3);
+    }
+
+    .message {
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffffffcc;
+      color: #ff66a3;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.2);
+      animation: pop 0.4s ease;
+      z-index: 2;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.8) translateX(-50%); opacity: 0; }
+      100% { transform: scale(1) translateX(-50%); opacity: 1; }
+    }
+
+    .show-time-btn {
+      margin-top: 20px;
+      padding: 15px 25px;
+      background-color: #ff99cc;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-family: 'Mitr', sans-serif;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(255, 128, 192, 0.3);
+      transition: background-color 0.3s;
+    }
+
+    .show-time-btn:hover {
+      background-color: #ff66a3;
+    }
+
+    .time-wrapper {
+      font-family: 'Mali', cursive;
+      text-align: center;
+      padding: 20px;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .time-wrapper h1 {
+      color: #ff3399;
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    .time-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .time-block {
+      background: white;
+      border: 2px dashed #ffb6d9;
+      border-radius: 12px;
+      padding: 20px;
+      min-width: 100px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .number {
+      font-size: 32px;
+      color: #ff3399;
+      font-weight: bold;
+    }
+
+    .label {
+      font-size: 16px;
+      color: #cc3366;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="instructions">
+  <h2>🎲 เกมจับคู่รูปของเรานะ 🎲</h2>
+  <p>จำภาพให้ดี แล้วจับคู่ภาพที่เหมือนกันให้ครบ!<br/>
+  ถ้าจับคู่สำเร็จ จะมีข้อความให้กำลังใจสุดน่ารักรออยู่ด้วยนะ บอกเลยยากระดับ 10 💖<br>จับเสร็จมีอะไรให้ดูด้วยหละ</p>
+</div>
+
+<div class="game-container" id="gameContainer"></div>
+
+<script>
+  const imageList = [
+    "IMG_5023.JPG",
+    "IMG_8031.jpg",
+    "IMG_9378.JPG",
+    "IMG_0628.jpg",
+    "222.png",
+    "IMG_5396.jpg",
+    "IMG_9647.jpg",
+    "IMG_9419.jpg"
+  ];
+
+  const compliments = [
+    "มี๊ๆเก่งมากเลย! ✨",
+    "มี๊ๆน่ารักที่สุดเลย! 💕",
+    "มี๊ๆสุดยอดดด! 🎉",
+    "มี๊เก่งเกินต้าน~ 🌟",
+    "มี๊เยี่ยมมากเลยนะ! 🍭",
+    "มี๊ทำดีมากเลย~ 😘",
+    "ว้าววว! มี๊จับได้อีกคู่แล้ว 💗",
+    "ปี๊ๆภูมิใจในตัวมี๊มากเลยนะ! 🥺"
+  ];
+
+  const gameContainer = document.getElementById("gameContainer");
+  let cards = [...imageList, ...imageList];
+  let flippedCards = [];
+  let matchedCount = 0;
+
+  cards.sort(() => Math.random() - 0.5);
+
+  cards.forEach(imageSrc => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+
+    card.innerHTML = `
+      <div class="inner">
+        <div class="front">💥</div>
+        <div class="back" style="background-image: url('${imageSrc}')"></div>
+      </div>
+    `;
+
+    card.dataset.image = imageSrc;
+
+    card.addEventListener("click", () => flipCard(card));
+    gameContainer.appendChild(card);
+  });
+
+  function flipCard(card) {
+    if (
+      flippedCards.length === 2 ||
+      card.classList.contains("flipped") ||
+      flippedCards.includes(card)
+    )
+      return;
+
+    card.classList.add("flipped");
+    flippedCards.push(card);
+
+    if (flippedCards.length === 2) {
+      const [first, second] = flippedCards;
+
+      if (first.dataset.image === second.dataset.image) {
+        matchedCount++;
+        showCompliment();
+
+        flippedCards = [];
+
+        if (matchedCount === imageList.length) {
+          setTimeout(() => {
+            showCompliment("เย้! จับคู่ครบแล้ว~ 🎀");
+            setTimeout(() => {
+              showFinishButton(); // เพิ่มปุ่มให้ไปดูเวลา
+            }, 1500);
+          }, 1000);
+        }
+      } else {
+        setTimeout(() => {
+          first.classList.remove("flipped");
+          second.classList.remove("flipped");
+          flippedCards = [];
+        }, 1000);
+      }
+    }
+  }
+
+  function showCompliment(customText) {
+    const msg = document.createElement("div");
+    msg.className = "message";
+    msg.innerText = customText || compliments[Math.floor(Math.random() * compliments.length)];
+    gameContainer.appendChild(msg);
+    setTimeout(() => {
+      msg.remove();
+    }, 2000);
+  }
+
+  function showFinishButton() {
+    const btn = document.createElement("button");
+    btn.innerText = "ดูรางวัลที่ชนะเกม 💗";
+    btn.className = "show-time-btn";
+    btn.onclick = showTimePassed;
+    document.body.appendChild(btn);
+  }
+
+  function showTimePassed() {
+    document.querySelector(".instructions").style.display = "none";
+    gameContainer.style.display = "none";
+    document.querySelector(".show-time-btn").remove();
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "time-wrapper";
+    wrapper.innerHTML = `
+      <h1>เราคบกันตั้งแต่วันที่ 30 มีนาคม 2565 อยู่ด้วยกันไปนานๆนะ 💞</h1>
+      <div class="time-container" id="timeContainer">
+        <div class="time-block"><div class="number" id="years">0</div><div class="label">ปี</div></div>
+        <div class="time-block"><div class="number" id="months">0</div><div class="label">เดือน</div></div>
+        <div class="time-block"><div class="number" id="days">0</div><div class="label">วัน</div></div>
+        <div class="time-block"><div class="number" id="hours">0</div><div class="label">ชั่วโมง</div></div>
+        <div class="time-block"><div class="number" id="minutes">0</div><div class="label">นาที</div></div>
+        <div class="time-block"><div class="number" id="seconds">0</div><div class="label">วินาที</div></div>
+      </div>
+    `;
+    document.body.appendChild(wrapper);
+
+    function updateTime() {
+      const startDate = new Date(2022, 2, 30); // 30 มีนาคม 2022 (เดือนเริ่มนับจาก 0)
+      const now = new Date();
+      let diffMs = now - startDate;
+
+      let seconds = Math.floor(diffMs / 1000);
+      let minutes = Math.floor(seconds / 60);
+      let hours = Math.floor(minutes / 60);
+      let days = Math.floor(hours / 24);
+
+      let years = Math.floor(days / 365);
+      days %= 365;
+
+      let months = Math.floor(days / 30.44); // ค่าประมาณ
+      days = Math.floor(days % 30.44);
+
+      hours %= 24;
+      minutes %= 60;
+      seconds %= 60;
+
+      document.getElementById("years").textContent = years;
+      document.getElementById("months").textContent = months;
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = hours;
+      document.getElementById("minutes").textContent = minutes;
+      document.getElementById("seconds").textContent = seconds;
+    }
+
+    updateTime();
+    setInterval(updateTime, 1000);
+  }
+</script>
+
+</body>
+</html>

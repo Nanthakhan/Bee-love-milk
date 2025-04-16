@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Itim&family=Mitr:wght@400;600&family=Sriracha&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@400;600&family=Sriracha&display=swap');
+.box{
+    display: flex;
+    height: 300px;
+    width: 300px;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 600px;
+    margin: 150px auto 50px;
+    font-family: "Mitr", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 40px;
+
+}

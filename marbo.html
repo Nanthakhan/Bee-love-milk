@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>หน้าวันเกิด</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #f0c8f8, #f9e5d2);
+      text-align: center;
+      padding: 50px;
+      margin: 0;
+    }
+
+    .page {
+      display: none;
+      border-radius: 15px;
+      padding: 30px;
+      background-color: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin: auto;
+      max-width: 500px;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    h2 {
+      color: #ff69b4;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      padding: 15px 30px;
+      background-color: #ff8c00;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #ff4500;
+    }
+
+    /* Lock screen style */
+    #lockScreen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #password {
+      font-size: 28px;
+      letter-spacing: 10px;
+      margin: 10px 0;
+      padding: 10px;
+      width: 200px;
+      text-align: center;
+      border: none;
+      border-bottom: 2px dashed #ff69b4;
+      background: none;
+    }
+
+    .num-pad {
+      display: grid;
+      grid-template-columns: repeat(3, 70px);
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .num-pad button {
+      height: 60px;
+      font-size: 24px;
+      border: none;
+      border-radius: 50%;
+      background-color: #ffc1e3;
+      color: #333;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .num-pad button:hover {
+      background-color: #ff69b4;
+      color: white;
+    }
+
+    .next-btn {
+      padding: 12px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      background-color: #ff69b4;
+      color: white;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .next-btn:hover {
+      background-color: #ff1493;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Animation */
+    @keyframes fadeSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-slide {
+      animation: fadeSlideUp 0.8s ease-out;
+    }
+  </style>
+</head>
+<body>
+
+<!-- หน้า 1 -->
+<div class="page active" id="page1">
+  <h2 class="fade-slide">😁 หว้า..มาถึงหน้านี้แล้วเบ๋อ 😁</h2>
+  <p class="fade-slide">ในหน้านี้ปี๊ๆก็หมดมุขแล้ว 5555555</p>
+  <button class="button fade-slide" onclick="goToPage(2)">ต่อไป</button>
+</div>
+
+<!-- หน้า 2 -->
+<div class="page" id="page2">
+  <h2 class="fade-slide">😩 ในหน้านี้ปี๊ๆไม่มีอะไรให้ตื่นเต้นแล้วดิ 😩</h2>
+  <p class="fade-slide">มีแต่ ของขวัญนะกดปุ่มต่อไปได้เลย</p>
+  <button class="button fade-slide" onclick="goToPage(3)">ต่อไป</button>
+</div>
+
+<!-- หน้า 3 -->
+<div class="page" id="page3">
+  <h2 class="fade-slide">!! แต่........ !!</h2>
+  <p class="fade-slide">ใต้องใส่รหัสให้ถูกก่อนนะ!</p>
+  <button class="button fade-slide" onclick="goToPage(4)">ใส่รหัส</button>
+</div>
+
+<!-- หน้า 4: รหัสผ่าน -->
+<div class="page" id="page4">
+  <div id="lockScreen">
+    <h2 class="fade-slide">🔒 ปลดล็อคของขวัญวันเกิด!</h2>
+    <p class="fade-slide">กรอกรหัสผ่าน 6 เป็นวันครบรอบเรา ห้ามแอบดูนะ ✨</p>
+    <input type="text" id="password" readonly maxlength="6" class="fade-slide"/>
+
+    <div class="num-pad fade-slide">
+      <button onclick="addDigit('1')">1</button>
+      <button onclick="addDigit('2')">2</button>
+      <button onclick="addDigit('3')">3</button>
+      <button onclick="addDigit('4')">4</button>
+      <button onclick="addDigit('5')">5</button>
+      <button onclick="addDigit('6')">6</button>
+      <button onclick="addDigit('7')">7</button>
+      <button onclick="addDigit('8')">8</button>
+      <button onclick="addDigit('9')">9</button>
+      <button onclick="clearPassword()">⌫</button>
+      <button onclick="addDigit('0')">0</button>
+      <button onclick="checkPassword()">✅</button>
+    </div>
+
+    <!-- ปุ่มไปหน้าอื่น -->
+    <a href="hp.html" id="nextButton" class="next-btn hidden">ดูของขวัญเลย! 🎁🎉</a>
+  </div>
+</div>
+
+<script>
+  let currentPage = 1;
+  let enteredPassword = "";
+  const correctPassword = "300365";
+
+  function goToPage(pageNumber) {
+    document.getElementById("page" + currentPage).classList.remove("active");
+    currentPage = pageNumber;
+    document.getElementById("page" + currentPage).classList.add("active");
+
+    if (pageNumber === 4) {
+      enteredPassword = "";
+      document.getElementById("password").value = "";
+      document.getElementById("nextButton").classList.add("hidden");
+    }
+  }
+
+  function addDigit(digit) {
+    if (enteredPassword.length < 6) {
+      enteredPassword += digit;
+      document.getElementById("password").value = enteredPassword;
+    }
+  }
+
+  function clearPassword() {
+    enteredPassword = "";
+    document.getElementById("password").value = "";
+    document.getElementById("nextButton").classList.add("hidden");
+  }
+
+  function checkPassword() {
+    if (enteredPassword === correctPassword) {
+      document.getElementById("nextButton").classList.remove("hidden");
+    } else {
+      alert("รหัสผิด ทำไมจำไม่ได้😡");
+      clearPassword();
+    }
+  }
+</script>
+
+</body>
+</html>
